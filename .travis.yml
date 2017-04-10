@@ -1,0 +1,67 @@
+sudo: false
+language: php
+
+# Cache some data across builds for performance.
+cache:
+  apt: true
+  directories:
+    - node_modules
+
+# Set the default environment.
+env:
+  global:
+    - WP_TRAVISCI=travis:phpunit
+    - WP_VERSION=latest
+    - WP_MULTISITE=1
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+  slack:
+    on_pull_requests: true
+    on_success: change
+    on_failure: always
+    on_start: never
+    on_cancel: always
+    rooms:
+      - wsu-ucomm:n2TLZRJd84rMOMbkKthSEMgS
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - php: 7.0
+      env: WP_TRAVISCI=travis:grunt
+
+before_script:
+    - |
+      # Remove Xdebug for a huge performance increase, but not from nightly or hhvm:
+      stable='^[0-9\.]+$'
+      if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]]; then
+        phpenv config-rm xdebug.ini
+      fi
+    - |
+      if [[ "$WP_TRAVISCI" == "travis:grunt" ]]; then
+        composer install
+      fi
+    - npm --version
+    - node --version
+    - nvm install stable
+    - npm install -g grunt-cli
+    - npm install
+    - npm prune
+    - mysql --version
+    - phpenv versions
+    - php --version
+    - npm --version
+    - node --version
+
+script:
+    - |
+      if [[ "$WP_TRAVISCI" == "travis:grunt" ]] ; then
+        grunt --version
+        grunt default
+      fi
