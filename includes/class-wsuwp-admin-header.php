@@ -233,7 +233,7 @@ class WSUWP_Admin_Header {
 		$user_sites = 0;
 
 		foreach ( $user_meta_keys as $key ) {
-			if ( 'capabilities' !== substr( $key, -12 ) || strpos( $key, 'network' ) !== false || strpos( $key, 'global' ) !== false  ) {
+			if ( 'capabilities' !== substr( $key, -12 ) || strpos( $key, 'network' ) !== false || strpos( $key, 'global' ) !== false ) {
 				continue;
 			}
 
@@ -349,7 +349,7 @@ class WSUWP_Admin_Header {
 					'id' => 'customize',
 					'title' => __( 'Customize' ),
 					'parent' => 'appearance',
-					'href' => add_query_arg( 'url', urlencode( $current_url ), wp_customize_url() ),
+					'href' => add_query_arg( 'url', rawurlencode( $current_url ), wp_customize_url() ),
 				);
 				$node_data['customize'] = $this->_set_node( $node_customize );
 
@@ -368,8 +368,8 @@ class WSUWP_Admin_Header {
 					'href' => admin_url( 'nav-menus.php' ),
 				);
 				$node_data['menus'] = $this->_set_node( $node_menus );
-			}
-		}
+			} // End if().
+		} // End if().
 
 		/**
 		 * Add the original menu items back to the admin bar now that we have our my-networks
@@ -422,7 +422,9 @@ class WSUWP_Admin_Header {
 				),
 			));
 
-			$sites = get_sites( array( 'network_id' => $network->id ) );
+			$sites = get_sites( array(
+				'network_id' => $network->id,
+			) );
 			$network_sites_added = 0;
 
 			// Add a unique site search menu for each network to aid with long lists.
@@ -472,7 +474,7 @@ class WSUWP_Admin_Header {
 
 				restore_current_blog();
 				$network_sites_added++;
-			}
+			} // End foreach().
 
 			// If a user is a member of the network (likely the primary), but not a member
 			// of any sites, we should remove that network menu entirely.
@@ -481,7 +483,7 @@ class WSUWP_Admin_Header {
 			}
 
 			wsuwp_restore_current_network();
-		}
+		} // End foreach().
 	}
 
 	/**

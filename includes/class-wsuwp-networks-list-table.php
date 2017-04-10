@@ -119,7 +119,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 
 		$query = "SELECT * FROM {$wpdb->site} WHERE 1=1";
 
-		$this->items = $wpdb->get_results( $query, ARRAY_A );
+		$this->items = $wpdb->get_results( $query, ARRAY_A ); // @codingStandardsIgnoreLine
 
 		// Parse through the network results and add the network name to the final array.
 		foreach ( $this->items as $key => $network ) {
@@ -145,7 +145,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 		$columns = $this->get_columns();
 		$hidden = array();
 		$sortable = $this->get_sortable_columns();
-		$this->_column_headers = array($columns, $hidden, $sortable);
+		$this->_column_headers = array( $columns, $hidden, $sortable );
 	}
 
 	/**
@@ -155,8 +155,8 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		$networks_columns = array(
-			'network_id'     => __( 'Network ID' ),
-			'network_name'   => __( 'Network Name' ),
+			'network_id' => __( 'Network ID' ),
+			'network_name' => __( 'Network Name' ),
 			'network_domain' => __( 'Network Domain' ),
 		);
 
@@ -170,8 +170,8 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	 */
 	function get_sortable_columns() {
 		$sortable_columns = array(
-			'network_id'     => array( 'network_id',     true  ),
-			'network_name'   => array( 'network_name',   false ),
+			'network_id' => array( 'network_id', true ),
+			'network_name' => array( 'network_name', false ),
 			'network_domain' => array( 'network_domain', false ),
 		);
 		return $sortable_columns;
@@ -195,7 +195,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 		// These URLs should be generated for the individual networks.
 		wsuwp_switch_to_network( $network_id );
 		$actions['dashboard'] = '<span class="backend"><a href="' . esc_url( network_admin_url() ) . '">' . __( 'Dashboard' ) . '</a></span>';
-		$actions['visit']     = '<span class="view"><a href="'    . esc_url( network_home_url()  ) . '">' . __( 'Visit' )     . '</a></span>';
+		$actions['visit'] = '<span class="view"><a href="' . esc_url( network_home_url() ) . '">' . __( 'Visit' ) . '</a></span>';
 		wsuwp_restore_current_network();
 
 		$actions = apply_filters( 'manage_networks_action_links', array_filter( $actions ), $network_id );
@@ -251,10 +251,10 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 						<?php
 						break;
 				}
-			}
+			} // End foreach().
 			?>
 			</tr>
 		<?php
-		}
+		} // End foreach().
 	}
 }
