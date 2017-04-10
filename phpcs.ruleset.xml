@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="WSUWP Plugins">
+    <description>Sniffs for PHP coding standards used by WSUWP Plugins</description>
+
+    <rule ref="WordPress-Extra">
+        <exclude name="WordPress.NamingConventions.ValidFunctionName" />
+        <exclude name="WordPress.XSS.EscapeOutput" />
+        <exclude name="WordPress.Variables.GlobalVariables" />
+        <exclude name="WordPress.PHP.StrictComparisons" />
+        <exclude name="WordPress.PHP.StrictInArray" />
+        <exclude name="WordPress.CSRF.NonceVerification" />
+        <exclude name="Generic.PHP.NoSilencedErrors" />
+        <exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
+        <exclude name="Squiz.PHP.DisallowMultipleAssignments" />
+    </rule>
+</ruleset>

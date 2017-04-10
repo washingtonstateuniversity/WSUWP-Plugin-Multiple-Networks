@@ -45,7 +45,9 @@ function wsuwp_get_user_networks( $user_id = null ) {
 		}
 	}
 
-	return get_networks( array( 'network__in' => $user_network_ids ) );
+	return get_networks( array(
+		'network__in' => $user_network_ids,
+	) );
 }
 
 /**
@@ -74,7 +76,11 @@ function wsuwp_switch_to_network( $network_id ) {
 	}
 
 	// Create a backup of $current_site in the global scope.
-	$GLOBALS['_wsuwp_switched_stack'][] = array( 'network' => $current_site, 'blog_id' => $wpdb->blogid, 'site_id' => $wpdb->siteid );
+	$GLOBALS['_wsuwp_switched_stack'][] = array(
+		'network' => $current_site,
+		'blog_id' => $wpdb->blogid,
+		'site_id' => $wpdb->siteid,
+	);
 
 	$current_site = get_network( $network_id );
 	$wpdb->set_blog_id( $current_site->site_id, $current_site->id );
@@ -181,7 +187,9 @@ function wsuwp_create_network( $args ) {
 	$template   = sanitize_key( get_option( 'template' ) );
 	$stylesheet = sanitize_key( get_option( 'stylesheet' ) );
 
-	$allowed_themes = array( $stylesheet => true );
+	$allowed_themes = array(
+		$stylesheet => true,
+	);
 	if ( $template !== $stylesheet ) {
 		$allowed_themes[ $template ] = true;
 	}
@@ -196,7 +204,10 @@ function wsuwp_create_network( $args ) {
 		$active_network_plugins[ $active_plugin ] = time();
 	}
 
-	$wpdb->insert( $wpdb->site, array( 'domain' => $args['domain'], 'path' => $args['path'] ) );
+	$wpdb->insert( $wpdb->site, array(
+		'domain' => $args['domain'],
+		'path' => $args['path'],
+	) );
 	$network_id = $wpdb->insert_id;
 
 	wp_cache_delete( 'networks', 'wsuwp' );
@@ -287,7 +298,7 @@ We hope you enjoy your new site. Thanks!
 	$insert = '';
 	foreach ( $network_meta as $meta_key => $meta_value ) {
 		if ( is_array( $meta_value ) ) {
-			$meta_value = serialize( $meta_value );
+			$meta_value = serialize( $meta_value ); // @codingStandardsIgnoreLine
 		}
 
 		if ( ! empty( $insert ) ) {
@@ -421,7 +432,9 @@ function wsuwp_validate_path( $path ) {
  * @return int The number of networks currently configured.
  */
 function wsuwp_network_count() {
-	$network_count = get_networks( array( 'count' => true ) );
+	$network_count = get_networks( array(
+		'count' => true,
+	) );
 	return $network_count;
 }
 
@@ -458,12 +471,18 @@ function wsuwp_network_user_count( $network_id = 0 ) {
 	}
 
 	wsuwp_switch_to_network( $network_id );
-	$network_user_data = get_site_option( 'network_user_data', array( 'count' => 0, 'updated' => 0 ) );
+	$network_user_data = get_site_option( 'network_user_data', array(
+		'count' => 0,
+		'updated' => 0,
+	) );
 
 	if ( empty( $network_user_data['count'] ) || empty( $network_user_data['updated'] ) || ( time() - 1800 ) > absint( $network_user_data['updated'] ) ) {
 		$network_key = 'wsuwp_network_' . absint( $network_id ) . '_capabilities';
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) as c FROM $wpdb->usermeta WHERE meta_key = %s ", $network_key ) );
-		$network_user_data = array( 'count' => absint( $count ), 'updated' => time() );
+		$network_user_data = array(
+			'count' => absint( $count ),
+			'updated' => time(),
+		);
 		update_site_option( 'network_user_data', $network_user_data );
 	}
 	wsuwp_restore_current_network();
@@ -478,11 +497,23 @@ function wsuwp_network_user_count( $network_id = 0 ) {
  */
 function wsuwp_global_site_count() {
 	wsuwp_switch_to_network( get_main_network_id() );
-	$global_site_data = get_site_option( 'global_site_data', array( 'count' => 0, 'updated' => 0 ) );
+	$global_site_data = get_site_option( 'global_site_data', array(
+		'count' => 0,
+		'updated' => 0,
+	) );
 
 	if ( empty( $global_site_data['count'] ) || empty( $global_site_data['updated'] ) || ( time() - 1800 ) > absint( $global_site_data['updated'] ) ) {
-		$count = get_sites( array( 'number' => '', 'spam' => 0, 'deleted' => 0, 'archived' => 0, 'count' => true ) );
-		$global_site_data = array( 'count' => absint( $count ), 'updated' => time() );
+		$count = get_sites( array(
+			'number' => '',
+			'spam' => 0,
+			'deleted' => 0,
+			'archived' => 0,
+			'count' => true,
+		) );
+		$global_site_data = array(
+			'count' => absint( $count ),
+			'updated' => time(),
+		);
 		update_site_option( 'global_site_data', $global_site_data );
 	}
 	wsuwp_restore_current_network();

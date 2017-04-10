@@ -167,12 +167,11 @@ class WSUWP_Network_Users {
 
 		if ( $user_id ) {
 			$this->add_user_to_network( $user_id );
-			wp_redirect( add_query_arg( array( 'update' => 'added' ), 'user-new.php' ) );
+			wp_redirect( add_query_arg( array(
+				'update' => 'added',
+			), 'user-new.php' ) );
 			exit;
 		}
-
-		// Allow WordPress to continue processing the normal action.
-		return;
 	}
 
 	/**

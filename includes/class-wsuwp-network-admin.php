@@ -303,7 +303,9 @@ class WSUWP_Network_Admin {
 				$diff = $now - $registered_at;
 				// If registered more than two days ago, cancel registration and let this signup go through.
 				if ( $diff > 2 * DAY_IN_SECONDS ) {
-					$wpdb->delete( $wpdb->signups, array( 'user_login' => $user_login ) );
+					$wpdb->delete( $wpdb->signups, array(
+						'user_login' => $user_login,
+					) );
 				} else { $result['errors']->add( 'user_name', __( 'That username is currently reserved but may be available in a couple of days.' ) );
 				}
 			}
@@ -657,7 +659,7 @@ class WSUWP_Network_Admin {
 				wp_cache_delete( $network_id, 'wsuwp:network' );
 				wp_cache_delete( $network_id, 'networks' );
 			}
-		}
+		} // End if().
 
 		wsuwp_restore_current_network();
 	}

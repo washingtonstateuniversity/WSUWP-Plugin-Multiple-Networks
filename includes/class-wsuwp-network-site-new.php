@@ -77,7 +77,7 @@ class WSUWP_Network_Site_New {
 			wp_die( __( 'Invalid site address. More than one use of // was found' ) );
 		}
 
-		$address = parse_url( $address );
+		$address = wp_parse_url( $address );
 
 		// Add basic validation to the host. Something like localhost is not allowed.
 		if ( 0 === substr_count( $address['host'], '.' ) ) {
@@ -143,7 +143,9 @@ class WSUWP_Network_Site_New {
 		}
 
 		$wpdb->hide_errors();
-		$id = wpmu_create_blog( $domain, $path, $site['title'], $user_id , array( 'public' => 1 ), get_current_site()->id );
+		$id = wpmu_create_blog( $domain, $path, $site['title'], $user_id , array(
+			'public' => 1,
+		), get_current_site()->id );
 		$wpdb->show_errors();
 
 		if ( is_wp_error( $id ) ) {
@@ -162,8 +164,13 @@ class WSUWP_Network_Site_New {
 Address: %2$s
 Name: %3$s' ), wp_get_current_user()->user_login , get_site_url( $id ), wp_unslash( $site['title'] ) );
 		wp_mail( get_site_option( 'admin_email' ), sprintf( __( '[%s] New Site Created' ), get_current_site()->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
-		wpmu_welcome_notification( $id, $user_id, $password, $site['title'], array( 'public' => 1 ) );
-		wp_redirect( add_query_arg( array( 'update' => 'added', 'id' => $id ), 'site-new.php' ) );
+		wpmu_welcome_notification( $id, $user_id, $password, $site['title'], array(
+			'public' => 1,
+		) );
+		wp_redirect( add_query_arg( array(
+			'update' => 'added',
+			'id' => $id,
+		), 'site-new.php' ) );
 
 		exit;
 	}
