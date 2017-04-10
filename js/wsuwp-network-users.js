@@ -1,3 +1,3 @@
-(function($){
-	$('.subsubsub .super a' ).text('Network Admins');
-}(jQuery));
+( function( $ ) {
+	$( ".subsubsub .super a" ).text( "Network Admins" );
+}( jQuery ) );
