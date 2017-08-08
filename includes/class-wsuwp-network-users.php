@@ -248,7 +248,7 @@ class WSUWP_Network_Users {
 
 		$network_admins = get_site_option( 'site_admins', array() );
 		$user = get_userdata( $user_id );
-		if ( $user &&  false !== ( $key = array_search( $user->user_login, $network_admins ) ) ) {
+		if ( $user && false !== ( $key = array_search( $user->user_login, $network_admins ) ) ) {
 			unset( $network_admins[ $key ] );
 			update_site_option( 'site_admins', $network_admins );
 		}
