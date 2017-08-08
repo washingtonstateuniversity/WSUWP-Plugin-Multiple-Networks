@@ -138,7 +138,8 @@ class WSUWP_Network_Site_New {
 			$user_id = wpmu_create_user( $domain, $password, $email );
 			if ( false == $user_id ) {
 				wp_die( __( 'There was an error creating the user.' ) );
-			} else { wp_new_user_notification( $user_id, $password );
+			} else {
+				wp_new_user_notification( $user_id );
 			}
 		}
 

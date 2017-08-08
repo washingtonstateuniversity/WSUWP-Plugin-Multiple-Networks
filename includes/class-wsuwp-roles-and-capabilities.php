@@ -43,8 +43,8 @@ class WSUWP_Roles_And_Capabilities {
 	 * Modify the editor role.
 	 *
 	 * Allow editors to create users so that users can be added with less administrator involvement.
-	 * 		- Add 'create_users' capability.
-	 * 		- Add 'promote_users' capability.
+	 *  - Add 'create_users' capability.
+	 *  - Add 'promote_users' capability.
 	 */
 	function modify_editor_capabilities() {
 		$editor = get_role( 'editor' );
