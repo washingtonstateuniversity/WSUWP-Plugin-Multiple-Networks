@@ -30,6 +30,7 @@ function remove_update_capabilities( $caps, $cap ) {
 		'install_themes',
 		'upload_themes',
 		'update_core',
+		'upgrade_network',
 	);
 
 	if ( in_array( $cap, $caps_check, true ) ) {
