@@ -52,5 +52,16 @@ function remove_wp_version_check_schedule( $event ) {
 		return $event;
 	}
 
-	return false;
+	$stop_hooks = array(
+		'wp_update_themes',
+		'wp_update_plugins',
+		'wp_version_check',
+		'wp_maybe_auto_update',
+	);
+
+	if ( is_object( $event ) && isset( $event->hook ) && in_array( $event->hook, $stop_hooks, true ) ) {
+		return false;
+	}
+
+	return $event;
 }
