@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSUWP Multiple Networks
-Version: 1.7.4
+Version: 1.7.5
 Description: Handles multiple networks in WordPress for WSU.
 Author: washingtonstateuniversity, jeremyfelt
 Author URI: https://web.wsu.edu/
