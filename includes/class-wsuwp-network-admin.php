@@ -818,6 +818,7 @@ class WSUWP_Network_Admin {
 		$mime_types['mat'] = 'application/x-matlab-data';
 		$mime_types['nb'] = 'application/mathematica';
 		$mime_types['epub'] = 'application/epub+zip';
+		$mime_types['mobi'] = 'application/x-mobipocket-ebook';
 
 		// global admins can upload exe files.
 		if ( is_super_admin() ) {
