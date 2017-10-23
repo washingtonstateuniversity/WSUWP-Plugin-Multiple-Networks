@@ -98,7 +98,7 @@ class WSUWP_Network_Admin {
 
 		add_action( 'admin_init', array( $this, 'remove_upgrade_notices' ) );
 
-		add_action( 'refresh_blog_details', array( $this, 'clear_site_request_cache' ) );
+		add_action( 'clean_site_cache', array( $this, 'clear_site_request_cache' ) );
 		add_action( 'delete_blog', array( $this, 'clear_site_request_cache' ) );
 
 		add_filter( 'pre_update_site_option_user_count', array( $this, 'update_network_user_count' ) );
