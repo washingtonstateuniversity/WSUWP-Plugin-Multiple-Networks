@@ -39,7 +39,7 @@ class WSUWP_Network_Admin {
 	private $global_network_options = array(
 		'fileupload_maxk' => 200000,
 		'blog_upload_space' => 2000,
-		'upload_filetypes' => 'jpg jpeg png gif mp3 webp oga ogg ogv webm mp4 pdf ai psd eps doc ppt xls csv key numbers pages dmg zip txt mat vtt pub sav mobi epub nb',
+		'upload_filetypes' => 'jpg jpeg png gif mp3 webp oga ogg ogv webm mp4 pdf ai psd eps doc ppt xls csv key numbers pages dmg zip txt mat vtt pub sav mobi epub nb fp7',
 		'add_new_users' => 1,
 		'registrationnotification' => 'no',
 		'registration' => 'none',
@@ -819,6 +819,7 @@ class WSUWP_Network_Admin {
 		$mime_types['nb'] = 'application/mathematica';
 		$mime_types['epub'] = 'application/epub+zip';
 		$mime_types['mobi'] = 'application/x-mobipocket-ebook';
+		$mime_types['fp7'] = 'application/x-filemaker';
 
 		// global admins can upload exe files.
 		if ( is_super_admin() ) {
