@@ -319,13 +319,13 @@ class WSUWP_Network_Users {
 			$network_id = 0;
 		}
 
+		// The management of network plugins is handled in user_can_manage_plugins()
+		if ( 'manage_network_plugins' === $args[0] ) {
+			return $allcaps;
+		}
+
 		if ( $user && $this->is_network_admin( $user->user_login, $network_id ) ) {
 			$allcaps[ $args[0] ] = true;
-
-			// activate_plugins and manage_network_plugins are tied together here.
-			if ( 'activate_plugins' === $args[0] ) {
-				$allcaps['manage_network_plugins'] = true;
-			}
 
 			// promote_users is a meta cap, but needs to be added here for our network admin role.
 			if ( 'promote_user' === $args[0] ) {
@@ -354,9 +354,15 @@ class WSUWP_Network_Users {
 	 * @return array Modified list of capabilities for the user.
 	 */
 	public function user_can_manage_plugins( $allcaps, $caps, $args, $user ) {
-		if ( $user && in_array( 'administrator', $user->roles ) ) {
-			// activate_plugins and manage_network_plugins are tied together here.
-			if ( 'activate_plugins' === $args[0] ) {
+		if ( $user && in_array( 'administrator', $user->roles ) && is_admin() && ! is_network_admin() ) {
+
+			// Provide the manage_network_plugins meta cap for all site administrators when
+			// plugin activation or deactivation caps are requested.
+			if ( in_array( $args[0], array(
+				'activate_plugin',
+				'deactivate_plugin',
+				'activate_plugins',
+			), true ) ) {
 				$allcaps['manage_network_plugins'] = true;
 			}
 		}
