@@ -327,7 +327,7 @@ class WSUWP_Network_Admin {
 	 *
 	 * @return string Unmodified parent file.
 	 */
-	function add_master_network_menu( $parent_file ) {
+	public function add_master_network_menu( $parent_file ) {
 		global $menu, $submenu;
 
 		if ( is_network_admin() && is_main_network() ) {
@@ -419,7 +419,7 @@ class WSUWP_Network_Admin {
 	/**
 	 * Enqueue styles and scripts to be used in the My Networks dashboard.
 	 */
-	function my_networks_dashboard_scripts() {
+	public function my_networks_dashboard_scripts() {
 		if ( ! is_admin() || 'dashboard_page_my-networks' !== get_current_screen()->id ) {
 			return;
 		}
@@ -430,7 +430,7 @@ class WSUWP_Network_Admin {
 	/**
 	 * Add a dashboard page to manage all WSU Networks that a user has access to
 	 */
-	function my_networks_dashboard() {
+	public function my_networks_dashboard() {
 		add_dashboard_page( 'My Networks Dashboard', 'My Networks', 'read', 'my-networks', array( $this, 'display_my_networks' ) );
 	}
 
@@ -438,7 +438,7 @@ class WSUWP_Network_Admin {
 	 * Output a "My Networks" dashboard page. This should provide an alternative method for
 	 * navigating a lengthy list of networks and their sites.
 	 */
-	function display_my_networks() {
+	public function display_my_networks() {
 		?>
 		<div class="wrap">
 			<h2>My Networks</h2><?php

@@ -38,5 +38,6 @@
         <exclude name="Generic.PHP.NoSilencedErrors" />
         <exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
         <exclude name="Squiz.PHP.DisallowMultipleAssignments" />
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
     </rule>
 </ruleset>

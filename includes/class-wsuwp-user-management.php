@@ -18,7 +18,7 @@ class WSUWP_User_Management {
 	 *
 	 * @var array
 	 */
-	var $role_data = array(
+	public $role_data = array(
 		'Subscriber' => array(
 			'a' => 'a',
 		),
