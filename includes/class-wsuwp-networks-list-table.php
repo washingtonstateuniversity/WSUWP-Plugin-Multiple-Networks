@@ -11,12 +11,14 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	 * Fire up the parent methods from WP_List_Table.
 	 */
 	function __construct() {
-		parent::__construct( array(
-			'plural'   => 'networks',
-			'singular' => 'network',
-			'ajax'     => false,
-			'screen'   => 'network',
-		) );
+		parent::__construct(
+			array(
+				'plural'   => 'networks',
+				'singular' => 'network',
+				'ajax'     => false,
+				'screen'   => 'network',
+			)
+		);
 	}
 
 	/**
@@ -190,7 +192,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 		);
 
 		// This URL should be generated in relation to the current (primary) network.
-		$actions['edit']      = '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?display=network&network_id=' . $network_id ) ) . '">' . __( 'Edit' ) . '</a></span>';
+		$actions['edit'] = '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?display=network&network_id=' . $network_id ) ) . '">' . __( 'Edit' ) . '</a></span>';
 
 		// These URLs should be generated for the individual networks.
 		wsuwp_switch_to_network( $network_id );

@@ -32,11 +32,11 @@ class WSUWP_Roles_And_Capabilities {
 	 * @since 1.6.0
 	 */
 	public function setup_hooks() {
-		add_action( 'init',           array( $this, 'modify_editor_capabilities' ), 10 );
+		add_action( 'init', array( $this, 'modify_editor_capabilities' ), 10 );
 		add_action( 'init', array( $this, 'modify_author_capabilities' ), 10 );
 		add_action( 'init', array( $this, 'modify_contributor_capabilities' ), 10 );
 		add_filter( 'editable_roles', array( $this, 'editable_roles' ), 10, 1 );
-		add_filter( 'map_meta_cap',   array( $this, 'map_meta_cap' ), 10, 4 );
+		add_filter( 'map_meta_cap', array( $this, 'map_meta_cap' ), 10, 4 );
 	}
 
 	/**

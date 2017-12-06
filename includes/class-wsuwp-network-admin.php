@@ -68,22 +68,22 @@ class WSUWP_Network_Admin {
 	 * @since 1.6.0
 	 */
 	public function setup_hooks() {
-		add_action( 'load-sites.php',                    array( $this, 'networks_php' ), 10, 1 );
+		add_action( 'load-sites.php', array( $this, 'networks_php' ), 10, 1 );
 		// Load at 9 for now until we sort our conflict with wsu-network-site-new.php
-		add_action( 'load-site-new.php',                 array( $this, 'network_new_php' ),  9, 1 );
-		add_action( 'load-site-info.php',                array( $this, 'network_info_php' ), 10, 1 );
-		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu' ), 10, 1 );
-		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard' ),  1 );
+		add_action( 'load-site-new.php', array( $this, 'network_new_php' ), 9, 1 );
+		add_action( 'load-site-info.php', array( $this, 'network_info_php' ), 10, 1 );
+		add_filter( 'parent_file', array( $this, 'add_master_network_menu' ), 10, 1 );
+		add_action( 'admin_menu', array( $this, 'my_networks_dashboard' ), 1 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'my_networks_dashboard_scripts' ), 10 );
-		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup' ), 10, 1 );
-		add_filter( 'plugin_action_links',               array( $this, 'remove_plugin_action_links' ), 10, 2 );
+		add_filter( 'wpmu_validate_user_signup', array( $this, 'validate_user_signup' ), 10, 1 );
+		add_filter( 'plugin_action_links', array( $this, 'remove_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'remove_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links' ), 15, 2 );
-		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin' ), 10, 1 );
+		add_action( 'activate_plugin', array( $this, 'activate_global_plugin' ), 10, 1 );
 		add_action( 'deactivate_plugin', array( $this, 'deactivate_global_plugin' ), 10, 1 );
-		add_filter( 'views_plugins-network',             array( $this, 'add_plugin_table_views' ), 10, 1 );
-		add_filter( 'all_plugins',                       array( $this, 'all_plugins' ), 10, 1 );
-		add_filter( 'parent_file',                       array( $this, 'parent_file' ), 10, 1 );
+		add_filter( 'views_plugins-network', array( $this, 'add_plugin_table_views' ), 10, 1 );
+		add_filter( 'all_plugins', array( $this, 'all_plugins' ), 10, 1 );
+		add_filter( 'parent_file', array( $this, 'parent_file' ), 10, 1 );
 
 		add_filter( 'pre_site_option_fileupload_maxk', array( $this, 'set_fileupload_maxk' ), 10, 1 );
 		add_filter( 'pre_site_option_blog_upload_space', array( $this, 'set_blog_upload_space' ), 10, 1 );
@@ -262,7 +262,7 @@ class WSUWP_Network_Admin {
 
 		// User login must be at least 3 characters
 		if ( strlen( $user_login ) < 3 ) {
-			$result['errors']->add( 'user_name',  __( 'Username must be at least 3 characters.' ) );
+			$result['errors']->add( 'user_name', __( 'Username must be at least 3 characters.' ) );
 		}
 
 		// Strip any whitespace and then match against case insensitive characters a-z 0-9 _ . - @
@@ -281,7 +281,7 @@ class WSUWP_Network_Admin {
 		}
 
 		if ( true === in_array( $user_login, $illegal_names ) ) {
-			$result['errors']->add( 'user_name',  __( 'That username is not allowed.' ) );
+			$result['errors']->add( 'user_name', __( 'That username is not allowed.' ) );
 		}
 
 		// User login must have at least one letter
@@ -303,9 +303,11 @@ class WSUWP_Network_Admin {
 				$diff = $now - $registered_at;
 				// If registered more than two days ago, cancel registration and let this signup go through.
 				if ( $diff > 2 * DAY_IN_SECONDS ) {
-					$wpdb->delete( $wpdb->signups, array(
-						'user_login' => $user_login,
-					) );
+					$wpdb->delete(
+						$wpdb->signups, array(
+							'user_login' => $user_login,
+						)
+					);
 				} else { $result['errors']->add( 'user_name', __( 'That username is currently reserved but may be available in a couple of days.' ) );
 				}
 			}
@@ -481,9 +483,9 @@ class WSUWP_Network_Admin {
 		$title = __( 'Networks' );
 		$parent_file = 'sites.php?display=network';
 
-		require( ABSPATH . 'wp-admin/admin-header.php' );
+		require ABSPATH . 'wp-admin/admin-header.php';
 
-		require_once( dirname( __FILE__ ) . '/class-wsuwp-networks-list-table.php' );
+		require_once dirname( __FILE__ ) . '/class-wsuwp-networks-list-table.php';
 		$wsuwp_networks = new WSUWP_Networks_List_Table();
 		$wsuwp_networks->prepare_items();
 		?>
@@ -511,7 +513,7 @@ class WSUWP_Network_Admin {
 			</form>
 		</div>
 		<?php
-		require( ABSPATH . 'wp-admin/admin-footer.php' );
+		require ABSPATH . 'wp-admin/admin-footer.php';
 		die();
 	}
 
@@ -561,7 +563,7 @@ class WSUWP_Network_Admin {
 		$title = __( 'Add New Network' );
 		$parent_file = 'sites.php?display=network';
 
-		require( ABSPATH . 'wp-admin/admin-header.php' );
+		require ABSPATH . 'wp-admin/admin-header.php';
 
 		?>
 		<div class="wrap">
@@ -590,7 +592,7 @@ class WSUWP_Network_Admin {
 			</form>
 		</div>
 		<?php
-		require( ABSPATH . 'wp-admin/admin-footer.php' );
+		require ABSPATH . 'wp-admin/admin-footer.php';
 		die();
 	}
 
@@ -695,7 +697,7 @@ class WSUWP_Network_Admin {
 		$parent_file = 'sites.php?display=network';
 		$submenu_file = 'sites.php?display=network';
 
-		require( ABSPATH . 'wp-admin/admin-header.php' );
+		require ABSPATH . 'wp-admin/admin-header.php';
 
 		$network = get_network( $network_id );
 
@@ -762,7 +764,7 @@ class WSUWP_Network_Admin {
 			</form>
 		</div>
 		<?php
-		require( ABSPATH . 'wp-admin/admin-footer.php' );
+		require ABSPATH . 'wp-admin/admin-footer.php';
 		die();
 	}
 

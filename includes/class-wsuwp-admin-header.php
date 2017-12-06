@@ -30,10 +30,10 @@ class WSUWP_Admin_Header {
 	public function setup_hooks() {
 		add_action( 'admin_head', array( $this, 'admin_bar_css' ), 10 );
 		add_action( 'wp_head', array( $this, 'admin_bar_css' ), 10 );
-		add_action( 'admin_bar_init',        array( $this, 'set_user_networks' ),  10 );
+		add_action( 'admin_bar_init', array( $this, 'set_user_networks' ), 10 );
 		add_action( 'admin_init', array( $this, 'remove_my_sites_menu' ), 11 );
 		add_action( 'template_redirect', array( $this, 'remove_my_sites_menu' ), 11 );
-		add_action( 'admin_bar_menu',        array( $this, 'my_networks_menu' ), 210 );
+		add_action( 'admin_bar_menu', array( $this, 'my_networks_menu' ), 210 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
 	}
@@ -282,11 +282,13 @@ class WSUWP_Admin_Header {
 		 * provide access to each of the user's networks. This title can be altered through the
 		 * use of the `wsu_my_network_title` filter. By default it is 'My WSU Networks'
 		 */
-		$wp_admin_bar->add_menu( array(
-			'id'    => 'my-networks',
-			'title' => apply_filters( 'wsu_my_networks_title', 'My Networks' ),
-			'href'  => admin_url( 'index.php?page=my-networks' ),
-		) );
+		$wp_admin_bar->add_menu(
+			array(
+				'id'    => 'my-networks',
+				'title' => apply_filters( 'wsu_my_networks_title', 'My Networks' ),
+				'href'  => admin_url( 'index.php?page=my-networks' ),
+			)
+		);
 
 		/**
 		 * Overwrite the previously set network name to remove the 'Network Admin:' text.
@@ -383,60 +385,72 @@ class WSUWP_Admin_Header {
 		 * We'll need to alter this to show sites (networks) instead, and then list the blogs
 		 * as sub menus of those.
 		 */
-		$wp_admin_bar->add_group( array(
-			'parent' => 'my-networks',
-			'id'     => 'my-networks-list',
-			'meta'   => array(),
-		));
+		$wp_admin_bar->add_group(
+			array(
+				'parent' => 'my-networks',
+				'id'     => 'my-networks-list',
+				'meta'   => array(),
+			)
+		);
 
 		// Add each of the user's networks as a menu item
 		foreach ( (array) $wp_admin_bar->user->networks as $network ) {
 			wsuwp_switch_to_network( $network->id );
 
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'my-networks-list',
-				'id'     => 'network-' . $network->id,
-				'title'  => get_site_option( 'site_name' ),
-				'href'   => network_admin_url(),
-			));
+			$wp_admin_bar->add_menu(
+				array(
+					'parent' => 'my-networks-list',
+					'id'     => 'network-' . $network->id,
+					'title'  => get_site_option( 'site_name' ),
+					'href'   => network_admin_url(),
+				)
+			);
 
 			/**
 			 * Only show a link to Network Dashboard if the user has the
 			 * correct capabilities for managing this network.
 			 */
 			if ( current_user_can( 'manage_network', $network->id ) ) {
-				$wp_admin_bar->add_menu( array(
-					'parent' => 'network-' . $network->id,
-					'id'     => 'network-' . $network->id . '-admin',
-					'title'  => 'Network Dashboard',
-					'href'   => network_admin_url(),
-				));
+				$wp_admin_bar->add_menu(
+					array(
+						'parent' => 'network-' . $network->id,
+						'id'     => 'network-' . $network->id . '-admin',
+						'title'  => 'Network Dashboard',
+						'href'   => network_admin_url(),
+					)
+				);
 			}
 
 			// Add a sub group for the network menu that will contain sites
-			$wp_admin_bar->add_group( array(
-				'parent' => 'network-' . $network->id,
-				'id'     => 'network-' . $network->id . '-list',
-				'meta'   => array(
-					'class' => current_user_can( 'manage_network', $network->id ) ? 'ab-sub-secondary' : '',
-				),
-			));
+			$wp_admin_bar->add_group(
+				array(
+					'parent' => 'network-' . $network->id,
+					'id'     => 'network-' . $network->id . '-list',
+					'meta'   => array(
+						'class' => current_user_can( 'manage_network', $network->id ) ? 'ab-sub-secondary' : '',
+					),
+				)
+			);
 
-			$sites = get_sites( array(
-				'network_id' => $network->id,
-			) );
+			$sites = get_sites(
+				array(
+					'network_id' => $network->id,
+				)
+			);
 			$network_sites_added = 0;
 
 			// Add a unique site search menu for each network to aid with long lists.
 			// Adapted from upstream project - https://github.com/trepmal/my-sites-search
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'network-' . $network->id . '-list',
-				'id'     => 'network-' . $network->id . '-search',
-				'title'  => '<input type="text" placeholder="' . __( 'Search sites', 'wsuwp' ) . '" />',
-				'meta'   => array(
-					'class' => 'ms-sites-search hide-if-no-js',
-				),
-			) );
+			$wp_admin_bar->add_menu(
+				array(
+					'parent' => 'network-' . $network->id . '-list',
+					'id'     => 'network-' . $network->id . '-search',
+					'title'  => '<input type="text" placeholder="' . __( 'Search sites', 'wsuwp' ) . '" />',
+					'meta'   => array(
+						'class' => 'ms-sites-search hide-if-no-js',
+					),
+				)
+			);
 
 			// Add each of the user's sites from this specific network to the menu
 			foreach ( $sites as $site ) {
@@ -449,28 +463,34 @@ class WSUWP_Admin_Header {
 
 				$blavatar = '<div class="blavatar"></div>';
 
-				$menu_id  = 'site-' . $site->id;
+				$menu_id = 'site-' . $site->id;
 
-				$wp_admin_bar->add_menu( array(
-					'parent'    => 'network-' . $network->id . '-list',
-					'id'        => $menu_id,
-					'title'     => $blavatar . $site->blogname,
-					'href'      => admin_url(),
-				) );
+				$wp_admin_bar->add_menu(
+					array(
+						'parent'    => 'network-' . $network->id . '-list',
+						'id'        => $menu_id,
+						'title'     => $blavatar . $site->blogname,
+						'href'      => admin_url(),
+					)
+				);
 
-				$wp_admin_bar->add_menu( array(
-					'parent' => $menu_id,
-					'id'     => $menu_id . '-d',
-					'title'  => __( 'Dashboard' ),
-					'href'   => admin_url(),
-				) );
+				$wp_admin_bar->add_menu(
+					array(
+						'parent' => $menu_id,
+						'id'     => $menu_id . '-d',
+						'title'  => __( 'Dashboard' ),
+						'href'   => admin_url(),
+					)
+				);
 
-				$wp_admin_bar->add_menu( array(
-					'parent' => $menu_id,
-					'id'     => $menu_id . '-v',
-					'title'  => __( 'Visit Site' ),
-					'href'   => home_url( '/' ),
-				) );
+				$wp_admin_bar->add_menu(
+					array(
+						'parent' => $menu_id,
+						'id'     => $menu_id . '-v',
+						'title'  => __( 'Visit Site' ),
+						'href'   => home_url( '/' ),
+					)
+				);
 
 				restore_current_blog();
 				$network_sites_added++;
@@ -502,7 +522,7 @@ class WSUWP_Admin_Header {
 			'group'  => false,
 			'meta'   => array(),
 		);
-		$args = wp_parse_args( $args,  $defaults );
+		$args = wp_parse_args( $args, $defaults );
 
 		return (object) $args;
 	}
