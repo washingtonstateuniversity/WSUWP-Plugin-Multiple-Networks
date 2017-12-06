@@ -131,7 +131,7 @@ function wsuwp_is_multi_network() {
 		return true;
 	}
 
-	if ( false === ( $is_multi_network = get_transient( 'wsuwp_is_multi_network' ) ) ) {
+	if ( false === get_transient( 'wsuwp_is_multi_network' ) ) {
 		$rows = (array) $wpdb->get_col( "SELECT DISTINCT id FROM $wpdb->site LIMIT 2" );
 		$is_multi_network = 1 < count( $rows ) ? 1 : 0;
 		set_transient( 'wsuwp_is_multi_network', $is_multi_network );
@@ -172,7 +172,8 @@ function wsuwp_create_network( $args ) {
 		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 	}
 
-	if ( ! $site_user = get_user_by( 'id', $args['user_id'] ) ) {
+	$site_user = get_user_by( 'id', $args['user_id'] );
+	if ( ! $site_user ) {
 		$errors->add( 'invalid_user', __( 'You must provide a valid user to be set as network admin.' ) );
 	}
 
