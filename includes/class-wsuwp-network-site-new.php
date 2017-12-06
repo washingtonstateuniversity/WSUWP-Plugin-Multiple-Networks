@@ -32,12 +32,7 @@ class WSUWP_Network_Site_New {
 	 * @since 1.6.0
 	 */
 	public function setup_hooks() {
-		add_action( 'load-site-new.php',        array( $this, 'site_new_php' ) );
-
-		add_filter( 'wsuwp_first_post_content', array( $this, 'first_post_content' ), 10, 1 );
-		add_filter( 'wsuwp_first_post_title',   array( $this, 'first_post_title' ), 10, 1 );
-		add_filter( 'wsuwp_first_page_content', array( $this, 'first_page_content' ), 10, 1 );
-		add_filter( 'wsuwp_first_page_title',   array( $this, 'first_page_title' ), 10, 1 );
+		add_action( 'load-site-new.php', array( $this, 'site_new_php' ) );
 	}
 
 	/**
@@ -275,51 +270,5 @@ Name: %3$s' ), wp_get_current_user()->user_login , get_site_url( $id ), wp_unsla
 		<?php
 		require( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
-	}
-
-	/**
-	 * Filter the content as a new site's first post is created.
-	 *
-	 * @return string Content to appear in site's first post.
-	 */
-	public function first_post_content() {
-		$post_content = <<<HTML
-This is the content for this site's first post.
-HTML;
-
-		return $post_content;
-	}
-
-	/**
-	 * Filter the title of a new site's first post as it is created.
-	 *
-	 * @return string Title to appear on site's first post.
-	 */
-	public function first_post_title() {
-		return 'First News Item';
-	}
-
-	/**
-	 * Filter the content as a new site's first page is created.
-	 *
-	 * This page will be set as the static home page for the new site.
-	 *
-	 * @return string Content to appear on site's home page.
-	 */
-	public function first_page_content() {
-		$page_content = <<<HTML
-This is the content for this site's first page, which should become the home page.
-HTML;
-
-		return $page_content;
-	}
-
-	/**
-	 * Filter the title of a new site's first page as it is created.
-	 *
-	 * @return string Title to appear on site's first page.
-	 */
-	public function first_page_title() {
-		return 'Home Page';
 	}
 }
