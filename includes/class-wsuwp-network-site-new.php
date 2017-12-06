@@ -139,9 +139,11 @@ class WSUWP_Network_Site_New {
 		}
 
 		$wpdb->hide_errors();
-		$id = wpmu_create_blog( $domain, $path, $site['title'], $user_id , array(
-			'public' => 1,
-		), get_current_site()->id );
+		$id = wpmu_create_blog(
+			$domain, $path, $site['title'], $user_id, array(
+				'public' => 1,
+			), get_current_site()->id
+		);
 		$wpdb->show_errors();
 
 		if ( is_wp_error( $id ) ) {
@@ -155,18 +157,28 @@ class WSUWP_Network_Site_New {
 		// Clear any stale cache related to this domain and path request. See sunrise.
 		wp_cache_delete( $domain . $path, 'wsuwp:site' );
 
-		$content_mail = sprintf( __( 'New site created by %1$s
+		$content_mail = sprintf(
+			__(
+				'New site created by %1$s
 
 Address: %2$s
-Name: %3$s' ), wp_get_current_user()->user_login , get_site_url( $id ), wp_unslash( $site['title'] ) );
+Name: %3$s'
+			), wp_get_current_user()->user_login, get_site_url( $id ), wp_unslash( $site['title'] )
+		);
 		wp_mail( get_site_option( 'admin_email' ), sprintf( __( '[%s] New Site Created' ), get_current_site()->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
-		wpmu_welcome_notification( $id, $user_id, $password, $site['title'], array(
-			'public' => 1,
-		) );
-		wp_redirect( add_query_arg( array(
-			'update' => 'added',
-			'id' => $id,
-		), 'site-new.php' ) );
+		wpmu_welcome_notification(
+			$id, $user_id, $password, $site['title'], array(
+				'public' => 1,
+			)
+		);
+		wp_redirect(
+			add_query_arg(
+				array(
+					'update' => 'added',
+					'id' => $id,
+				), 'site-new.php'
+			)
+		);
 
 		exit;
 	}
@@ -205,7 +217,7 @@ Name: %3$s' ), wp_get_current_user()->user_login , get_site_url( $id ), wp_unsla
 		$title = __( 'Add New Site' );
 		$parent_file = 'sites.php';
 
-		require( ABSPATH . 'wp-admin/admin-header.php' );
+		require ABSPATH . 'wp-admin/admin-header.php';
 
 		?>
 
@@ -268,7 +280,7 @@ Name: %3$s' ), wp_get_current_user()->user_login , get_site_url( $id ), wp_unsla
 			</style>
 		</div>
 		<?php
-		require( ABSPATH . 'wp-admin/admin-footer.php' );
+		require ABSPATH . 'wp-admin/admin-footer.php';
 		die();
 	}
 }

@@ -10,13 +10,15 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	/**
 	 * Fire up the parent methods from WP_List_Table.
 	 */
-	function __construct() {
-		parent::__construct( array(
-			'plural'   => 'networks',
-			'singular' => 'network',
-			'ajax'     => false,
-			'screen'   => 'network',
-		) );
+	public function __construct() {
+		parent::__construct(
+			array(
+				'plural'   => 'networks',
+				'singular' => 'network',
+				'ajax'     => false,
+				'screen'   => 'network',
+			)
+		);
 	}
 
 	/**
@@ -114,7 +116,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	/**
 	 * Prepare items for display in the networks list table.
 	 */
-	function prepare_items() {
+	public function prepare_items() {
 		global $wpdb;
 
 		$query = "SELECT * FROM {$wpdb->site} WHERE 1=1";
@@ -153,7 +155,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	 *
 	 * @return array List of column ids and their names.
 	 */
-	function get_columns() {
+	public function get_columns() {
 		$networks_columns = array(
 			'network_id' => __( 'Network ID' ),
 			'network_name' => __( 'Network Name' ),
@@ -168,7 +170,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	 *
 	 * @return array List of column keys and their sortable options.
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'network_id' => array( 'network_id', true ),
 			'network_name' => array( 'network_name', false ),
@@ -190,7 +192,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 		);
 
 		// This URL should be generated in relation to the current (primary) network.
-		$actions['edit']      = '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?display=network&network_id=' . $network_id ) ) . '">' . __( 'Edit' ) . '</a></span>';
+		$actions['edit'] = '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?display=network&network_id=' . $network_id ) ) . '">' . __( 'Edit' ) . '</a></span>';
 
 		// These URLs should be generated for the individual networks.
 		wsuwp_switch_to_network( $network_id );
@@ -206,7 +208,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 	/**
 	 * Display the rows for the networks list table.
 	 */
-	function display_rows() {
+	public function display_rows() {
 
 		$class = '';
 		foreach ( $this->items as $network ) {

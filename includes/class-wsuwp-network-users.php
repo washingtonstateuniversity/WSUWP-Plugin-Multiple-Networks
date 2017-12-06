@@ -37,14 +37,14 @@ class WSUWP_Network_Users {
 	public function setup_hooks() {
 		add_action( 'init', array( $this, 'set_super_admins' ), 1 );
 
-		add_action( 'wpmu_new_user',            array( $this, 'add_user_to_network' ) );
-		add_action( 'personal_options_update',  array( $this, 'add_user_to_network' ) );
+		add_action( 'wpmu_new_user', array( $this, 'add_user_to_network' ) );
+		add_action( 'personal_options_update', array( $this, 'add_user_to_network' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'add_user_to_network' ) );
 		add_action( 'added_existing_user', array( $this, 'add_user_to_network' ) );
 		add_action( 'admin_action_add-user', array( $this, 'add_existing_global_user_to_network' ) );
 
-		add_action( 'wpmu_new_user',            array( $this, 'add_user_to_global' ) );
-		add_action( 'personal_options_update',  array( $this, 'add_user_to_global' ) );
+		add_action( 'wpmu_new_user', array( $this, 'add_user_to_global' ) );
+		add_action( 'personal_options_update', array( $this, 'add_user_to_global' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'add_user_to_global' ) );
 
 		add_action( 'edit_user_profile', array( $this, 'toggle_capabilities' ) );
@@ -167,9 +167,13 @@ class WSUWP_Network_Users {
 
 		if ( $user_id ) {
 			$this->add_user_to_network( $user_id );
-			wp_redirect( add_query_arg( array(
-				'update' => 'added',
-			), 'user-new.php' ) );
+			wp_redirect(
+				add_query_arg(
+					array(
+						'update' => 'added',
+					), 'user-new.php'
+				)
+			);
 			exit;
 		}
 	}
@@ -248,7 +252,8 @@ class WSUWP_Network_Users {
 
 		$network_admins = get_site_option( 'site_admins', array() );
 		$user = get_userdata( $user_id );
-		if ( $user && false !== ( $key = array_search( $user->user_login, $network_admins ) ) ) {
+		$key = array_search( $user->user_login, $network_admins );
+		if ( $user && false !== $key ) {
 			unset( $network_admins[ $key ] );
 			update_site_option( 'site_admins', $network_admins );
 		}
@@ -358,11 +363,13 @@ class WSUWP_Network_Users {
 
 			// Provide the manage_network_plugins meta cap for all site administrators when
 			// plugin activation or deactivation caps are requested.
-			if ( in_array( $args[0], array(
-				'activate_plugin',
-				'deactivate_plugin',
-				'activate_plugins',
-			), true ) ) {
+			if ( in_array(
+				$args[0], array(
+					'activate_plugin',
+					'deactivate_plugin',
+					'activate_plugins',
+				), true
+			) ) {
 				$allcaps['manage_network_plugins'] = true;
 			}
 		}

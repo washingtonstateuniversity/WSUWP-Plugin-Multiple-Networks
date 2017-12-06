@@ -108,18 +108,22 @@ class WSUWP_Network_Site_Info {
 
 				if ( $network_id != $current_details->site_id ) {
 					// Retrieve all of the user IDs associated with this site.
-					$all_site_users_query = new WP_User_Query( array(
-						'blog_id' => $id,
-						'fields' => 'id',
-					) );
+					$all_site_users_query = new WP_User_Query(
+						array(
+							'blog_id' => $id,
+							'fields' => 'id',
+						)
+					);
 
 					// Retrieve only users IDs of this site that have existing capabilities on the new network.
-					$new_network_users_query = new WP_User_Query( array(
-						'blog_id' => $id,
-						'meta_key' => 'wsuwp_network_' . $network_id . '_capabilities',
-						'meta_value' => array(),
-						'fields' => 'id',
-					) );
+					$new_network_users_query = new WP_User_Query(
+						array(
+							'blog_id' => $id,
+							'meta_key' => 'wsuwp_network_' . $network_id . '_capabilities',
+							'meta_value' => array(),
+							'fields' => 'id',
+						)
+					);
 
 					// Which users do not yet have capabilities on the new network.
 					$modify_network_users = array_diff( $all_site_users_query->get_results(), $new_network_users_query->get_results() );

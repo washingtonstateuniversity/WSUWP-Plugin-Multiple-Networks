@@ -18,7 +18,7 @@ class WSUWP_User_Management {
 	 *
 	 * @var array
 	 */
-	var $role_data = array(
+	public $role_data = array(
 		'Subscriber' => array(
 			'a' => 'a',
 		),
@@ -131,18 +131,24 @@ class WSUWP_User_Management {
 				$role = $_REQUEST['new_role'];
 			}
 
-			$redirect_fail = add_query_arg( array(
-				'update' => 'err_add_notfound',
-				'id' => $blog_id,
-			), 'site-users.php' );
-			$redirect_member = add_query_arg( array(
-				'update' => 'err_add_member',
-				'id' => $blog_id,
-			), 'site-users.php' );
-			$redirect_success = add_query_arg( array(
-				'update' => 'adduser',
-				'id' => $blog_id,
-			), 'site-users.php' );
+			$redirect_fail = add_query_arg(
+				array(
+					'update' => 'err_add_notfound',
+					'id' => $blog_id,
+				), 'site-users.php'
+			);
+			$redirect_member = add_query_arg(
+				array(
+					'update' => 'err_add_member',
+					'id' => $blog_id,
+				), 'site-users.php'
+			);
+			$redirect_success = add_query_arg(
+				array(
+					'update' => 'adduser',
+					'id' => $blog_id,
+				), 'site-users.php'
+			);
 		} else {
 			$blog_id = get_current_blog_id();
 
@@ -156,15 +162,21 @@ class WSUWP_User_Management {
 				$role = $_REQUEST['role'];
 			}
 
-			$redirect_fail = add_query_arg( array(
-				'update' => 'does_not_exist',
-			), 'user-new.php' );
-			$redirect_member = add_query_arg( array(
-				'update' => 'addexisting',
-			), 'user-new.php' );
-			$redirect_success = add_query_arg( array(
-				'update' => 'addnoconfirmation',
-			), 'user-new.php' );
+			$redirect_fail = add_query_arg(
+				array(
+					'update' => 'does_not_exist',
+				), 'user-new.php'
+			);
+			$redirect_member = add_query_arg(
+				array(
+					'update' => 'addexisting',
+				), 'user-new.php'
+			);
+			$redirect_success = add_query_arg(
+				array(
+					'update' => 'addnoconfirmation',
+				), 'user-new.php'
+			);
 		} // End if().
 
 		if ( ! $user_details ) {
@@ -244,9 +256,11 @@ class WSUWP_User_Management {
 				// This user already exists, so add them to the site.
 				$this->add_user_to_site( $user_id, $_REQUEST['role'], $_REQUEST['email'] );
 
-				$redirect = add_query_arg( array(
-					'update' => 'addnoconfirmation',
-				), 'user-new.php' );
+				$redirect = add_query_arg(
+					array(
+						'update' => 'addnoconfirmation',
+					), 'user-new.php'
+				);
 				wp_redirect( $redirect );
 				die();
 			}
@@ -280,9 +294,11 @@ class WSUWP_User_Management {
 			 */
 			do_action( 'wpmu_activate_user', $user_id, $password, $meta );
 
-			$redirect = add_query_arg( array(
-				'update' => 'addnoconfirmation',
-			), 'user-new.php' );
+			$redirect = add_query_arg(
+				array(
+					'update' => 'addnoconfirmation',
+				), 'user-new.php'
+			);
 			wp_redirect( $redirect );
 			die();
 		} // End if().
@@ -318,10 +334,12 @@ class WSUWP_User_Management {
 		}
 
 		switch_to_blog( $blog_id );
-		add_existing_user_to_blog( array(
-			'user_id' => $user_id,
-			'role' => $requested_role,
-		) );
+		add_existing_user_to_blog(
+			array(
+				'user_id' => $user_id,
+				'role' => $requested_role,
+			)
+		);
 		restore_current_blog();
 
 		if ( ! isset( $_POST['noconfirmation'] ) && true === $confirmation ) {
@@ -356,7 +374,8 @@ Welcome!
 	 * @return string The modified network welcome email.
 	 */
 	public function network_welcome_user_email( $welcome_email, $user_id, $password, $meta ) {
-		$welcome_email = sprintf( 'Hi,
+		$welcome_email = sprintf(
+			'Hi,
 
 A new account has been set up for your WSU Network ID (USERNAME) on SITE_NAME.
 
@@ -366,7 +385,8 @@ You can login to %1$s with your WSU Network ID and password at %3$s
 
 Welcome!
 
-- WSUWP Platform (wp.wsu.edu)', $meta['site_name'], $meta['home_url'], $meta['admin_url'] );
+- WSUWP Platform (wp.wsu.edu)', $meta['site_name'], $meta['home_url'], $meta['admin_url']
+		);
 
 		return $welcome_email;
 	}

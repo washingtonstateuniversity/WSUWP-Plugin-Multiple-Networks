@@ -32,11 +32,11 @@ class WSUWP_Roles_And_Capabilities {
 	 * @since 1.6.0
 	 */
 	public function setup_hooks() {
-		add_action( 'init',           array( $this, 'modify_editor_capabilities' ), 10 );
+		add_action( 'init', array( $this, 'modify_editor_capabilities' ), 10 );
 		add_action( 'init', array( $this, 'modify_author_capabilities' ), 10 );
 		add_action( 'init', array( $this, 'modify_contributor_capabilities' ), 10 );
 		add_filter( 'editable_roles', array( $this, 'editable_roles' ), 10, 1 );
-		add_filter( 'map_meta_cap',   array( $this, 'map_meta_cap' ), 10, 4 );
+		add_filter( 'map_meta_cap', array( $this, 'map_meta_cap' ), 10, 4 );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class WSUWP_Roles_And_Capabilities {
 	 *  - Add 'create_users' capability.
 	 *  - Add 'promote_users' capability.
 	 */
-	function modify_editor_capabilities() {
+	public function modify_editor_capabilities() {
 		$editor = get_role( 'editor' );
 
 		if ( null !== $editor ) {
@@ -88,7 +88,7 @@ class WSUWP_Roles_And_Capabilities {
 	 * review in a workflow similar to posts. If the Editorial Access Manager plugin
 	 * is enabled, then authors can be assigned as editors of individual pages.
 	 */
-	function modify_contributor_capabilities() {
+	public function modify_contributor_capabilities() {
 		$contributor = get_role( 'contributor' );
 
 		if ( null !== $contributor ) {
@@ -107,7 +107,7 @@ class WSUWP_Roles_And_Capabilities {
 	 *
 	 * @return array Array of modified roles.
 	 */
-	function editable_roles( $roles ) {
+	public function editable_roles( $roles ) {
 		if ( isset( $roles['administrator'] ) && ! current_user_can( 'administrator' ) ) {
 			unset( $roles['administrator'] );
 		}
@@ -127,7 +127,7 @@ class WSUWP_Roles_And_Capabilities {
 	 *
 	 * @return array Modified list of capabilities.
 	 */
-	function map_meta_cap( $caps, $cap, $user_id, $args ) {
+	public function map_meta_cap( $caps, $cap, $user_id, $args ) {
 		switch ( $cap ) {
 			case 'edit_user':
 			case 'remove_user':

@@ -45,9 +45,11 @@ function wsuwp_get_user_networks( $user_id = null ) {
 		}
 	}
 
-	return get_networks( array(
-		'network__in' => $user_network_ids,
-	) );
+	return get_networks(
+		array(
+			'network__in' => $user_network_ids,
+		)
+	);
 }
 
 /**
@@ -129,7 +131,7 @@ function wsuwp_is_multi_network() {
 		return true;
 	}
 
-	if ( false === ( $is_multi_network = get_transient( 'wsuwp_is_multi_network' ) ) ) {
+	if ( false === get_transient( 'wsuwp_is_multi_network' ) ) {
 		$rows = (array) $wpdb->get_col( "SELECT DISTINCT id FROM $wpdb->site LIMIT 2" );
 		$is_multi_network = 1 < count( $rows ) ? 1 : 0;
 		set_transient( 'wsuwp_is_multi_network', $is_multi_network );
@@ -170,7 +172,8 @@ function wsuwp_create_network( $args ) {
 		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 	}
 
-	if ( ! $site_user = get_user_by( 'id', $args['user_id'] ) ) {
+	$site_user = get_user_by( 'id', $args['user_id'] );
+	if ( ! $site_user ) {
 		$errors->add( 'invalid_user', __( 'You must provide a valid user to be set as network admin.' ) );
 	}
 
@@ -204,10 +207,12 @@ function wsuwp_create_network( $args ) {
 		$active_network_plugins[ $active_plugin ] = time();
 	}
 
-	$wpdb->insert( $wpdb->site, array(
-		'domain' => $args['domain'],
-		'path' => $args['path'],
-	) );
+	$wpdb->insert(
+		$wpdb->site, array(
+			'domain' => $args['domain'],
+			'path' => $args['path'],
+		)
+	);
 	$network_id = $wpdb->insert_id;
 
 	wp_cache_delete( 'networks', 'wsuwp' );
@@ -244,7 +249,8 @@ function wsuwp_create_network( $args ) {
 function wsuwp_populate_network_meta( $network_id, $network_meta ) {
 	global $wpdb, $wp_db_version;
 
-	$welcome_email = __( 'Dear User,
+	$welcome_email = __(
+		'Dear User,
 
 Your new SITE_NAME site has been successfully set up at:
 BLOG_URL
@@ -256,7 +262,8 @@ Log in here: BLOG_URLwp-login.php
 
 We hope you enjoy your new site. Thanks!
 
---The Team @ SITE_NAME' );
+--The Team @ SITE_NAME'
+	);
 
 	$defaults = array(
 		'site_name' => null,
@@ -432,9 +439,11 @@ function wsuwp_validate_path( $path ) {
  * @return int The number of networks currently configured.
  */
 function wsuwp_network_count() {
-	$network_count = get_networks( array(
-		'count' => true,
-	) );
+	$network_count = get_networks(
+		array(
+			'count' => true,
+		)
+	);
 	return $network_count;
 }
 
@@ -471,10 +480,12 @@ function wsuwp_network_user_count( $network_id = 0 ) {
 	}
 
 	wsuwp_switch_to_network( $network_id );
-	$network_user_data = get_site_option( 'network_user_data', array(
-		'count' => 0,
-		'updated' => 0,
-	) );
+	$network_user_data = get_site_option(
+		'network_user_data', array(
+			'count' => 0,
+			'updated' => 0,
+		)
+	);
 
 	if ( empty( $network_user_data['count'] ) || empty( $network_user_data['updated'] ) || ( time() - 1800 ) > absint( $network_user_data['updated'] ) ) {
 		$network_key = 'wsuwp_network_' . absint( $network_id ) . '_capabilities';
@@ -497,19 +508,23 @@ function wsuwp_network_user_count( $network_id = 0 ) {
  */
 function wsuwp_global_site_count() {
 	wsuwp_switch_to_network( get_main_network_id() );
-	$global_site_data = get_site_option( 'global_site_data', array(
-		'count' => 0,
-		'updated' => 0,
-	) );
+	$global_site_data = get_site_option(
+		'global_site_data', array(
+			'count' => 0,
+			'updated' => 0,
+		)
+	);
 
 	if ( empty( $global_site_data['count'] ) || empty( $global_site_data['updated'] ) || ( time() - 1800 ) > absint( $global_site_data['updated'] ) ) {
-		$count = get_sites( array(
-			'number' => '',
-			'spam' => 0,
-			'deleted' => 0,
-			'archived' => 0,
-			'count' => true,
-		) );
+		$count = get_sites(
+			array(
+				'number' => '',
+				'spam' => 0,
+				'deleted' => 0,
+				'archived' => 0,
+				'count' => true,
+			)
+		);
 		$global_site_data = array(
 			'count' => absint( $count ),
 			'updated' => time(),
