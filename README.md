@@ -22,3 +22,14 @@ For best results, this plugin should be added as a must-use plugin using a proce
 * Global administrators, network administrators, and site administrators treated separately.
 * Removes need for confirmation/activation links when adding new users to sites.
 
+## Contributing
+
+All contributions are welcome. In its current state, the plugin is over-opinionated in some places and less opinionated than it should be in others. If you'd like to help clarify that or have a question, please open an issue with your thoughts.
+
+### Needs
+
+These are the best places to help:
+
+* Translation support is effectively missing.
+* A new "My Networks" and "My Sites" interface via REST API would be refreshing.
+* There are likely several bugs awaiting that we haven't found yet. :)
