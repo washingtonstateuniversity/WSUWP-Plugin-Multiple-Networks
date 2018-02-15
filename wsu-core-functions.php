@@ -535,29 +535,3 @@ function wsuwp_global_site_count() {
 
 	return absint( $global_site_data['count'] );
 }
-
-if ( ! function_exists( 'wp_new_user_notification' ) ) {
-	/**
-	 * Email login credentials to a newly-registered user.
-	 *
-	 * Plugin function to replace core's wp_new_user_notification
-	 *
-	 * @param int    $user_id        User ID.
-	 * @param string $plaintext_pass Optional. The user's plaintext password. Default empty.
-	 */
-	function wp_new_user_notification( $user_id, $plaintext_pass = '' ) {
-		$user = get_userdata( $user_id );
-
-		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
-		// we want to reverse this for the plain text arena of emails.
-		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-
-		$message  = sprintf( __( 'A new user has been added to %s:' ), $blogname ) . "\r\n\r\n";
-		$message .= sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
-		$message .= sprintf( __( 'E-mail: %s' ), $user->user_email ) . "\r\n\r\n";
-		$message .= 'No action is necessary. This message is purely informative.' . "\r\n\r\n";
-		$message .= '- WSUWP Platform (wp.wsu.edu)';
-
-		@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New User Added' ), $blogname ), $message );
-	}
-}
