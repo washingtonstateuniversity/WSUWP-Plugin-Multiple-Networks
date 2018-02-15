@@ -62,8 +62,6 @@ class WSUWP_User_Management {
 
 		add_action( 'admin_action_adduser', array( $this, 'add_existing_user_to_site' ) );
 		add_action( 'admin_action_createuser', array( $this, 'add_new_user_to_site' ) );
-
-		add_filter( 'update_welcome_user_email', array( $this, 'network_welcome_user_email' ), 10, 4 );
 	}
 
 	/**
@@ -361,34 +359,6 @@ Welcome!
 			$message = sprintf( $message, get_option( 'blogname' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ), admin_url(), $this->get_role_a( $role['name'] ) );
 			wp_mail( $user_email, sprintf( __( '[%s] Welcome Email' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $message );
 		}
-	}
-
-	/**
-	 * Provide a default email to send when welcoming a user to a network.
-	 *
-	 * @param string $welcome_email The network welcome email.
-	 * @param int    $user_id       The user's ID. Unused.
-	 * @param string $password      The user's password. Unused.
-	 * @param array  $meta          Meta information about the new site.
-	 *
-	 * @return string The modified network welcome email.
-	 */
-	public function network_welcome_user_email( $welcome_email, $user_id, $password, $meta ) {
-		$welcome_email = sprintf(
-			'Hi,
-
-A new account has been set up for your WSU Network ID (USERNAME) on SITE_NAME.
-
-This account was created when you were added as a member of %1$s, located at %2$s.
-
-You can login to %1$s with your WSU Network ID and password at %3$s
-
-Welcome!
-
-- WSUWP Platform (wp.wsu.edu)', $meta['site_name'], $meta['home_url'], $meta['admin_url']
-		);
-
-		return $welcome_email;
 	}
 }
 
