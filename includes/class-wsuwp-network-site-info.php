@@ -79,7 +79,7 @@ class WSUWP_Network_Site_Info {
 	 */
 	public function enqueue_scripts() {
 		if ( 'site-info-network' === get_current_screen()->id ) {
-			wp_enqueue_script( 'wsu-move-site', plugins_url( '/js/wsu-move-site.js', __DIR__ ), array( 'jquery' ), wsuwp_global_version(), true );
+			wp_enqueue_script( 'wsu-move-site', plugins_url( '/js/wsu-move-site.js', __DIR__ ), array( 'jquery' ), WSUWP_Multiple_Networks::$version, true );
 		}
 	}
 
