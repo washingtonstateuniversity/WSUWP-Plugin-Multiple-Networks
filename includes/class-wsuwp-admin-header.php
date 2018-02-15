@@ -85,7 +85,8 @@ class WSUWP_Admin_Header {
 	public function set_user_networks() {
 		global $wp_admin_bar;
 
-		if ( wsuwp_is_global_admin( wp_get_current_user()->ID ) ) {
+		// Installations with many networks may want to disable this for specific users (global admins).
+		if ( true !== add_filter( 'wsuwp_display_networks_menu', true ) ) {
 			return;
 		}
 
@@ -246,8 +247,8 @@ class WSUWP_Admin_Header {
 			}
 		}
 
-		// Disable the My Sites and My Networks menu for global admins.
-		if ( wsuwp_is_global_admin( wp_get_current_user()->ID ) ) {
+		// Installations with many networks may want to disable this for specific users (global admins).
+		if ( true !== add_filter( 'wsuwp_display_networks_menu', true ) ) {
 			return;
 		}
 

@@ -1,12 +1,7 @@
 <?php
-/*
- * Plugin Name: WSU Core Functions
- * Plugin URI: https://web.wsu.edu
- * Description: Functions that perform some core functionality that we would love to live inside of WordPress one day.
- * Author: washingtonstateuniversity, jeremyfelt
- * Author URI: https://web.wsu.edu
- * Version: 0.1
- * Network: true
+/**
+ * Functions that provide some core functionality that we would love to live inside
+ * of WordPress one day.
  */
 
 /**
@@ -131,7 +126,9 @@ function wsuwp_is_multi_network() {
 		return true;
 	}
 
-	if ( false === get_transient( 'wsuwp_is_multi_network' ) ) {
+	$is_multi_network = get_transient( 'wsuwp_is_multi_network' );
+
+	if ( false === (bool) $is_multi_network ) {
 		$rows = (array) $wpdb->get_col( "SELECT DISTINCT id FROM $wpdb->site LIMIT 2" );
 		$is_multi_network = 1 < count( $rows ) ? 1 : 0;
 		set_transient( 'wsuwp_is_multi_network', $is_multi_network );
