@@ -72,7 +72,7 @@ class WSUWP_Admin_Header {
 	 */
 	public function enqueue_scripts() {
 		if ( is_admin_bar_showing() ) {
-			wp_enqueue_script( 'wsuwp-site-search', plugins_url( 'js/wsuwp-site-search.js', __DIR__ ), array( 'jquery' ), wsuwp_global_version(), true );
+			wp_enqueue_script( 'wsuwp-site-search', plugins_url( 'js/wsuwp-site-search.js', __DIR__ ), array( 'jquery' ), WSUWP_Multiple_Networks::$version, true );
 		}
 	}
 

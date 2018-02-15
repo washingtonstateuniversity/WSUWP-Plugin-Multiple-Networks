@@ -470,7 +470,7 @@ class WSUWP_Network_Users {
 			$global_admin_ids[] = $user->ID;
 		}
 
-		wp_enqueue_script( 'wsuwp-network-users', plugins_url( '/js/wsuwp-network-users.js', __DIR__ ), array( 'jquery' ), wsuwp_global_version(), true );
+		wp_enqueue_script( 'wsuwp-network-users', plugins_url( '/js/wsuwp-network-users.js', __DIR__ ), array( 'jquery' ), WSUWP_Multiple_Networks::$version, true );
 
 		$network_id = absint( get_current_network_id() );
 

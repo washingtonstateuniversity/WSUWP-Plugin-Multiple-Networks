@@ -424,7 +424,7 @@ class WSUWP_Network_Admin {
 			return;
 		}
 
-		wp_enqueue_style( 'wsuwp-my-networks', plugins_url( '/css/dashboard-my-networks.css', __DIR__ ), array(), wsuwp_global_version() );
+		wp_enqueue_style( 'wsuwp-my-networks', plugins_url( '/css/dashboard-my-networks.css', __DIR__ ), array(), WSUWP_Multiple_Networks::$version );
 	}
 
 	/**
