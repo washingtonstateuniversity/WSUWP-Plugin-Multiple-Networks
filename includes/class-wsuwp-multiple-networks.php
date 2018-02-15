@@ -9,7 +9,7 @@ class WSUWP_Multiple_Networks {
 	/**
 	 * @var string The plugin version number.
 	 */
-	public static $version = '1.7.10';
+	public static $version = '1.8.0';
 
 	/**
 	 * Maintain and return the one instance. Initiate hooks when
