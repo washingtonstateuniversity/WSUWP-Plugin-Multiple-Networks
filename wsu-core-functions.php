@@ -131,7 +131,9 @@ function wsuwp_is_multi_network() {
 		return true;
 	}
 
-	if ( false === get_transient( 'wsuwp_is_multi_network' ) ) {
+	$is_multi_network = get_transient( 'wsuwp_is_multi_network' );
+
+	if ( false === $is_multi_network ) {
 		$rows = (array) $wpdb->get_col( "SELECT DISTINCT id FROM $wpdb->site LIMIT 2" );
 		$is_multi_network = 1 < count( $rows ) ? 1 : 0;
 		set_transient( 'wsuwp_is_multi_network', $is_multi_network );
