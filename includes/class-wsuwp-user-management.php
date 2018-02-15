@@ -345,17 +345,22 @@ class WSUWP_User_Management {
 			$roles = get_editable_roles();
 			$role = $roles[ $requested_role ];
 
+			$site = get_site( get_main_site_id() );
+
 			// 1 = site name, 2 = URL, 3 = role, 4 = login URL, 5 = a vs an
 			$message = 'Hello,
 
 You are now %5$s %3$s at %1$s.
 
-Visit this site at %2$s and login with your WSU Network ID at %4$s
+Visit this site at %2$s and login at %4$s
 
 Welcome!
 
-- WSUWP Platform (wp.wsu.edu)
+- ' . $site->blogname . '(' . home_url( $site->id ) . ')
 ';
+
+			$message = apply_filters( 'wsuwp_add_user_to_site_email', $message );
+
 			$message = sprintf( $message, get_option( 'blogname' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ), admin_url(), $this->get_role_a( $role['name'] ) );
 			wp_mail( $user_email, sprintf( __( '[%s] Welcome Email' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $message );
 		}
