@@ -198,16 +198,6 @@ class WSUWP_Network_Users {
 			</table>
 		<?php
 		}
-
-		if ( $this->is_global_admin() ) {
-			?>
-			<table class="form-table">
-				<tr>
-					<th><?php _e( 'Javascript Editor' ); ?></th>
-					<td><p><label><input type="checkbox" id="javascript_editor"  name="javascript_editor" <?php checked( user_can( $profile_user->ID, 'edit_javascript' ) ); ?> /><?php _e( 'Grant this user access to the Custom Javascript Editor.' ); ?></label></p></td>
-				</tr>
-			</table><?php
-		}
 	}
 
 	/**
@@ -225,17 +215,6 @@ class WSUWP_Network_Users {
 			} elseif ( 'on' === $_POST['network_admin'] ) {
 				$this->grant_super_admin( $user_id );
 			}
-		}
-
-		if ( ! $this->is_global_admin() ) {
-			return;
-		}
-
-		// Process Javascript editor assigment at any level.
-		if ( empty( $_POST['javascript_editor'] ) ) {
-			delete_user_meta( $user_id, 'wsuwp_can_edit_javascript' );
-		} elseif ( 'on' === $_POST['javascript_editor'] ) {
-			update_user_meta( $user_id, 'wsuwp_can_edit_javascript', '1' );
 		}
 	}
 
