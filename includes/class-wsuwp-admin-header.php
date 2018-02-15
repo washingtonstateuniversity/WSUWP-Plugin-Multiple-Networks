@@ -86,7 +86,7 @@ class WSUWP_Admin_Header {
 		global $wp_admin_bar;
 
 		// Installations with many networks may want to disable this for specific users (global admins).
-		if ( true !== add_filter( 'wsuwp_display_networks_menu' ) ) {
+		if ( true !== add_filter( 'wsuwp_display_networks_menu', true ) ) {
 			return;
 		}
 
@@ -248,7 +248,7 @@ class WSUWP_Admin_Header {
 		}
 
 		// Installations with many networks may want to disable this for specific users (global admins).
-		if ( true !== add_filter( 'wsuwp_display_networks_menu' ) ) {
+		if ( true !== add_filter( 'wsuwp_display_networks_menu', true ) ) {
 			return;
 		}
 
