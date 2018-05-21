@@ -137,7 +137,7 @@ class WSUWP_Network_Site_Info {
 
 						// Parse the user's sites for others on this network to see if we can remove this network's capabilities.
 						foreach ( $user_sites as $user_site_id => $user_site ) {
-							if ( $user_site->site_id === $current_details->site_id && $user_site_id !== $id ) {
+							if ( $user_site->site_id === (int) $current_details->site_id && $user_site_id !== $id ) {
 								$remove_from_network = false;
 								continue;
 							}
