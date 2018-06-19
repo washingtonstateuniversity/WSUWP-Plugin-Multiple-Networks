@@ -196,7 +196,7 @@ class WSUWP_Network_Users {
 					<td><p><label><input type="checkbox" id="network_admin"  name="network_admin" <?php checked( user_can( $profile_user->ID, 'manage_network', get_current_network_id() ) ); ?> /><?php _e( 'Grant this user admin privileges for the Network.' ); ?></label></p></td>
 				</tr>
 			</table>
-		<?php
+			<?php
 		}
 	}
 
