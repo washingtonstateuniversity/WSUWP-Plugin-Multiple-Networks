@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 // Common functions.
 require dirname( __FILE__ ) . '/wsu-core-functions.php';
 require dirname( __FILE__ ) . '/includes/wsuwp-multiple-networks-updates.php';
-require dirname( __FILE__ ) . '/includes/capabilities.php';
+require dirname( __FILE__ ) . '/includes/meta-capabilities.php';
 require dirname( __FILE__ ) . '/includes/roles-capabilities.php';
 
 // The core plugin class.
