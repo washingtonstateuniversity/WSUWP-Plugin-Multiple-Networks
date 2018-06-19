@@ -3,6 +3,7 @@
 namespace WSUWP\Multiple_Networks\MetaCapabilities;
 
 add_filter( 'map_meta_cap', __NAMESPACE__ . '\remove_update_capabilities', 10, 2 );
+add_filter( 'map_meta_cap', __NAMESPACE__ . '\map_meta_cap', 10, 4 );
 
 /**
  * Limit the options available to network administrators for managing
@@ -54,6 +55,58 @@ function remove_update_capabilities( $caps, $cap ) {
 
 	if ( in_array( $cap, $caps_disable_secondary_networks, true ) ) {
 		$caps[] = 'do_not_allow';
+	}
+
+	return $caps;
+}
+
+/**
+ * Modify user related capabilities to prevent undesired behavior from editors.
+ *
+ * Removes the delete_user, edit_user, remove_user, and promote_user capabilities from a user when
+ * they are not administrators.
+ *
+ * @param array  $caps    Array of capabilities.
+ * @param string $cap     Current capability.
+ * @param int    $user_id User ID of capability to modify.
+ * @param array  $args    Array of additional arguments.
+ *
+ * @return array Modified list of capabilities.
+ */
+function map_meta_cap( $caps, $cap, $user_id, $args ) {
+	switch ( $cap ) {
+		case 'edit_user':
+		case 'remove_user':
+		case 'promote_user':
+			if ( isset( $args[0] ) && $args[0] == $user_id ) {
+				break;
+			} elseif ( ! isset( $args[0] ) ) {
+				$caps[] = 'do_not_allow';
+			}
+			$other = new WP_User( absint( $args[0] ) );
+			if ( $other->has_cap( 'administrator' ) ) {
+				if ( ! current_user_can( 'administrator' ) ) {
+					$caps[] = 'do_not_allow';
+				}
+			}
+			break;
+		case 'delete_user':
+		case 'delete_users':
+			if ( ! isset( $args[0] ) ) {
+				break;
+			}
+			$other = new WP_User( absint( $args[0] ) );
+			if ( $other->has_cap( 'administrator' ) ) {
+				if ( ! current_user_can( 'administrator' ) ) {
+					$caps[] = 'do_not_allow';
+				}
+			}
+			break;
+		case 'manage_links':
+			$caps[] = 'do_not_allow';
+			break;
+		default:
+			break;
 	}
 
 	return $caps;
