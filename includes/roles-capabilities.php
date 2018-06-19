@@ -2,10 +2,27 @@
 
 namespace WSUWP\Multiple_Networks\Roles\Capabilities;
 
-add_action( 'init', __NAMESPACE__ . '\modify_editor_capabilities', 10 );
-add_action( 'init', __NAMESPACE__ . '\modify_author_capabilities', 10 );
-add_action( 'init', __NAMESPACE__ . '\modify_contributor_capabilities', 10 );
+add_action( 'admin_init', __NAMESPACE__ . '\modify_capabilities', 10 );
 add_filter( 'editable_roles', __NAMESPACE__ . '\editable_roles', 10, 1 );
+
+/**
+ * Wrap capabilities modification in a versioned process.
+ *
+ * @since 1.9.0
+ */
+function modify_capabilities() {
+	$cap_version = get_option( 'wsuwpmn_cap_version', '' );
+
+	if ( '1.0.0' === $cap_version ) {
+		return;
+	}
+
+	modify_editor_capabilities();
+	modify_author_capabilities();
+	modify_contributor_capabilities();
+
+	update_option( 'wsuwpmn_cap_version', '1.0.0', false );
+}
 
 /**
  * Modify the editor role.
