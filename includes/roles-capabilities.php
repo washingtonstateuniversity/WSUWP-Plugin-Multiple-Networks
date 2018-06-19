@@ -34,10 +34,12 @@ function modify_capabilities() {
 function modify_editor_capabilities() {
 	$editor = get_role( 'editor' );
 
-	if ( null !== $editor ) {
-		$editor->add_cap( 'create_users' );
-		$editor->add_cap( 'promote_users' );
+	if ( null === $editor ) {
+		return;
 	}
+
+	$editor->add_cap( 'create_users' );
+	$editor->add_cap( 'promote_users' );
 }
 
 /**
@@ -55,10 +57,12 @@ function modify_editor_capabilities() {
 function modify_author_capabilities() {
 	$author = get_role( 'author' );
 
-	if ( null !== $author ) {
-		$author->add_cap( 'edit_pages' );
-		$author->add_cap( 'upload_files' );
+	if ( null === $author ) {
+		return;
 	}
+
+	$author->add_cap( 'edit_pages' );
+	$author->add_cap( 'upload_files' );
 }
 
 /**
@@ -76,10 +80,12 @@ function modify_author_capabilities() {
 function modify_contributor_capabilities() {
 	$contributor = get_role( 'contributor' );
 
-	if ( null !== $contributor ) {
-		$contributor->add_cap( 'upload_files' );
-		$contributor->add_cap( 'edit_pages' );
+	if ( null === $contributor ) {
+		return;
 	}
+
+	$contributor->add_cap( 'upload_files' );
+	$contributor->add_cap( 'edit_pages' );
 }
 
 /**
