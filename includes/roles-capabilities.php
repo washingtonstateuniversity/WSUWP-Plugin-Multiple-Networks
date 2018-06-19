@@ -2,10 +2,27 @@
 
 namespace WSUWP\Multiple_Networks\Roles\Capabilities;
 
-add_action( 'init', __NAMESPACE__ . '\modify_editor_capabilities', 10 );
-add_action( 'init', __NAMESPACE__ . '\modify_author_capabilities', 10 );
-add_action( 'init', __NAMESPACE__ . '\modify_contributor_capabilities', 10 );
+add_action( 'admin_init', __NAMESPACE__ . '\modify_capabilities', 10 );
 add_filter( 'editable_roles', __NAMESPACE__ . '\editable_roles', 10, 1 );
+
+/**
+ * Wrap capabilities modification in a versioned process.
+ *
+ * @since 1.9.0
+ */
+function modify_capabilities() {
+	$cap_version = get_option( 'wsuwpmn_cap_version', '' );
+
+	if ( '1.0.0' === $cap_version ) {
+		return;
+	}
+
+	modify_editor_capabilities();
+	modify_author_capabilities();
+	modify_contributor_capabilities();
+
+	update_option( 'wsuwpmn_cap_version', '1.0.0', false );
+}
 
 /**
  * Modify the editor role.
@@ -17,10 +34,12 @@ add_filter( 'editable_roles', __NAMESPACE__ . '\editable_roles', 10, 1 );
 function modify_editor_capabilities() {
 	$editor = get_role( 'editor' );
 
-	if ( null !== $editor ) {
-		$editor->add_cap( 'create_users' );
-		$editor->add_cap( 'promote_users' );
+	if ( null === $editor ) {
+		return;
 	}
+
+	$editor->add_cap( 'create_users' );
+	$editor->add_cap( 'promote_users' );
 }
 
 /**
@@ -38,10 +57,12 @@ function modify_editor_capabilities() {
 function modify_author_capabilities() {
 	$author = get_role( 'author' );
 
-	if ( null !== $author ) {
-		$author->add_cap( 'edit_pages' );
-		$author->add_cap( 'upload_files' );
+	if ( null === $author ) {
+		return;
 	}
+
+	$author->add_cap( 'edit_pages' );
+	$author->add_cap( 'upload_files' );
 }
 
 /**
@@ -59,10 +80,12 @@ function modify_author_capabilities() {
 function modify_contributor_capabilities() {
 	$contributor = get_role( 'contributor' );
 
-	if ( null !== $contributor ) {
-		$contributor->add_cap( 'upload_files' );
-		$contributor->add_cap( 'edit_pages' );
+	if ( null === $contributor ) {
+		return;
 	}
+
+	$contributor->add_cap( 'upload_files' );
+	$contributor->add_cap( 'edit_pages' );
 }
 
 /**
