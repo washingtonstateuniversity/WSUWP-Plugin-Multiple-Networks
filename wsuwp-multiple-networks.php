@@ -16,6 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 // Common functions.
 require dirname( __FILE__ ) . '/wsu-core-functions.php';
 require dirname( __FILE__ ) . '/includes/wsuwp-multiple-networks-updates.php';
+require dirname( __FILE__ ) . '/includes/update-site.php';
 require dirname( __FILE__ ) . '/includes/meta-capabilities.php';
 require dirname( __FILE__ ) . '/includes/roles-capabilities.php';
 
