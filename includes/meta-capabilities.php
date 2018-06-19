@@ -66,6 +66,8 @@ function remove_update_capabilities( $caps, $cap ) {
  * Removes the delete_user, edit_user, remove_user, and promote_user capabilities from a user when
  * they are not administrators.
  *
+ * Removes ability to manage links from all roles.
+ *
  * @param array  $caps    Array of capabilities.
  * @param string $cap     Current capability.
  * @param int    $user_id User ID of capability to modify.
