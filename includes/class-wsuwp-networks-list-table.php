@@ -259,7 +259,7 @@ class WSUWP_Networks_List_Table extends WP_List_Table {
 			} // End foreach().
 			?>
 			</tr>
-		<?php
+			<?php
 		} // End foreach().
 	}
 }
