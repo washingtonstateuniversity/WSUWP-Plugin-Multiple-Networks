@@ -1,8 +1,8 @@
 <?php
 
-namespace WSUWP\Multiple_Networks\Capabilities;
+namespace WSUWP\Multiple_Networks\MetaCapabilities;
 
-add_filter( 'map_meta_cap', 'WSUWP\Multiple_Networks\Capabilities\remove_update_capabilities', 10, 2 );
+add_filter( 'map_meta_cap', __NAMESPACE__ . '\remove_update_capabilities', 10, 2 );
 
 /**
  * Limit the options available to network administrators for managing
