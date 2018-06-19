@@ -15,6 +15,16 @@ function remove_hooks() {
 
 	add_action( 'transition_post_status', __NAMESPACE__ . '\update_last_updated_on_post_publish', 10, 3 );
 	add_action( 'delete_post', __NAMESPACE__ . '\update_last_updated', 10 );
+
+	/**
+	 * Remove the deletion of the 'fresh_site' option hooked to several actions. This ensures that
+	 * `update_option()` is not called every time a post or page is published.
+	 */
+	foreach ( array( 'publish_post', 'publish_page', 'wp_ajax_save-widget', 'wp_ajax_widgets-order', 'customize_save_after' ) as $action ) {
+		remove_action( $action, '_delete_option_fresh_site', 0 );
+	}
+
+	add_filter( 'pre_option_fresh_site', __NAMESPACE__ . '\is_fresh_site', 10 );
 }
 
 /**
@@ -65,4 +75,15 @@ function update_last_updated() {
 	}
 
 	clean_blog_cache( $current_site );
+}
+
+/**
+ * Return a constant value when `get_option( 'fresh_site' )` is called.
+ *
+ * @since 1.9.0
+ *
+ * @return string
+ */
+function is_fresh_site() {
+	return '0';
 }
