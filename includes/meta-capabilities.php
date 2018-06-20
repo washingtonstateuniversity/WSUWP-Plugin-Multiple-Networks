@@ -85,7 +85,7 @@ function map_meta_cap( $caps, $cap, $user_id, $args ) {
 			} elseif ( ! isset( $args[0] ) ) {
 				$caps[] = 'do_not_allow';
 			}
-			$other = new WP_User( absint( $args[0] ) );
+			$other = new \WP_User( absint( $args[0] ) );
 			if ( $other->has_cap( 'administrator' ) ) {
 				if ( ! current_user_can( 'administrator' ) ) {
 					$caps[] = 'do_not_allow';
@@ -97,7 +97,7 @@ function map_meta_cap( $caps, $cap, $user_id, $args ) {
 			if ( ! isset( $args[0] ) ) {
 				break;
 			}
-			$other = new WP_User( absint( $args[0] ) );
+			$other = new \WP_User( absint( $args[0] ) );
 			if ( $other->has_cap( 'administrator' ) ) {
 				if ( ! current_user_can( 'administrator' ) ) {
 					$caps[] = 'do_not_allow';
