@@ -823,7 +823,7 @@ class WSUWP_Network_Admin {
 		$mime_types['mobi'] = 'application/x-mobipocket-ebook';
 		$mime_types['fp5'] = 'application/x-filemaker';
 		$mime_types['fp7'] = 'application/x-filemaker';
-		$mime_types['fmp12'] = 'application/x-filemaker';
+		$mime_types['fmp12'] = 'application/octet-stream';
 
 		// global admins can upload exe files.
 		if ( is_super_admin() ) {
